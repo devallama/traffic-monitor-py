@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import asyncio
 import grovepi
 import math
@@ -13,6 +15,12 @@ digitalPins = {
 
 grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
 grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
+
+init()
+
+def init():
+    print('started!')
+    getEnvironmentData()
 
 def getEnvironmentData():
     temperature, humidity = getTemperatureAndHumidity()
