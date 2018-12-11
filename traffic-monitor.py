@@ -5,6 +5,7 @@ import grovepi
 import math
 import json
 import time
+import uuid
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 
@@ -31,8 +32,11 @@ digitalPins = {
 }
 
 grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
+grovepi.pinMode(digitalPins.get('tempAndHumidity'), 'INPUT')
 grovepi.pinMode(digitalPins.get('water'), 'INPUT')
 grovepi.pinMode(digitalPins.get('motion'), 'INPUT')
+
+isMotionActive = False
 
 def init():
     message = {
@@ -47,14 +51,16 @@ def init():
     print('started!')
 
     runLoop()
-    # getEnvironmentData()
 
 def runLoop():
     while True:
         try:
             if grovepi.digitalRead(digitalPins.get('motion')):
-                print('Motion detected')
-                getEnvironmentData()
+                if isMotionActive:
+                    isMotionActive = False
+                else:
+                    print('Motion detected')
+                    getEnvironmentData()
             else:
                 print('No motion detected')
             
@@ -65,6 +71,7 @@ def runLoop():
 def getEnvironmentData():
     temperature, humidity = getTemperatureAndHumidity()
     data = {
+        'id': uuid.uuid4(),
         'airQuality': getAirQuality(),
         'temperature': temperature,
         'humidity': humidity,
