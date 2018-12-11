@@ -73,7 +73,7 @@ def runLoop():
 def getEnvironmentData():
     temperature, humidity = getTemperatureAndHumidity()
     data = {
-        'id': uuid.uuid4(),
+        'id': str(uuid.uuid4()),
         'airQuality': getAirQuality(),
         'temperature': temperature,
         'humidity': humidity,
