@@ -3,6 +3,7 @@
 import asyncio
 import grovepi
 import math
+import json 
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 
@@ -31,7 +32,11 @@ grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
 grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
 
 def init():
-    myAWSIoTMQTTClient.publish('/messages/status', 'Traffic monitor started & connected!', 1)
+    try:
+        myAWSIoTMQTTClient.publish('messages/status', json.loads('Traffic monitor started & connected!'), 1)
+    except: 
+        print("Couldn't publish message")
+    
     print('started!')
     getEnvironmentData()
 
