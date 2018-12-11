@@ -16,8 +16,6 @@ digitalPins = {
 grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
 grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
 
-init()
-
 def init():
     print('started!')
     getEnvironmentData()
@@ -67,3 +65,4 @@ def getWater():
         print('IO Error')
         return None
 
+init()
