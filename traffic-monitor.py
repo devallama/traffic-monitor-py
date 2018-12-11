@@ -32,7 +32,7 @@ grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
 grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
 
 def init():
-    if myAWSIoTMQTTClient.publish('messages/status', json.loads('Traffic monitor started & connected!'), 1)
+    if myAWSIoTMQTTClient.publish('messages/status', json.loads('Traffic monitor started & connected!'), 1):
         print("published successfully")
     else:
         print("Couldn't publish message")
