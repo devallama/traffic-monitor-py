@@ -26,8 +26,8 @@ analogPins = {
 
 digitalPins = {
     'tempAndHumidity': 4,
-    'water': 2,
-    "motion": 4
+    'water': 3,
+    "motion": 2
 }
 
 grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
