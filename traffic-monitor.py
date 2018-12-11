@@ -38,7 +38,7 @@ def getEnvironmentData():
 
 def sendDataOverMQTT(data):
     for key, value in data.items():
-        print('key: ' + key + ' is value: ' + value)
+        print('key: ' + key + ' is value: ' + str(value))
     print('send data here')
 
 def getAirQuality():
