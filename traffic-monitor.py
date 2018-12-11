@@ -54,7 +54,7 @@ def getTemperatureAndHumidity():
 
         if math.isnan(temp) == False and math.isnan(humidity) == False:
             return temp, humidity
-        else 
+        else:
             return None, None
     except IOError: 
         print('IO Error')
