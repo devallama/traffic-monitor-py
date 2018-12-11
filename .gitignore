@@ -1,2 +1,8 @@
 grove.py/
 GrovePi/
+aws-iot-device-sdk-python/
+AWSIoTPythonSDK
+root-CA.crt
+traffic-monitor.cert.pem
+traffic-monitor.private.key
+traffic-monitor.public.key
