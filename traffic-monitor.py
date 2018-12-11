@@ -4,6 +4,20 @@ import asyncio
 import grovepi
 import math
 
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+
+endpoint = "a2i9jv9wdklrfp-ats.iot.eu-west-2.amazonaws.com"
+rootCAPath = "./root-CA.crt"
+certificatePath = "./traffic-monitor.cert.pem"
+privateKeyPath = "./traffic-monitor.private.key"
+clientID = "traffic-monitor"
+
+myAWSIoTMQTTClient = AWSIoTMQTTClient(clientID)
+myAWSIoTMQTTClient.configureEndpoint(endpoint, 8883)
+myAWSIoTMQTTClient.configureCredentials(rootCAPath, privateKeyPath, certificatePath)
+
+myAWSIoTMQTTClient.connect()
+
 analogPins = {
     'airQuality': 0
 }
@@ -17,6 +31,7 @@ grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
 grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
 
 def init():
+    myAWSIoTMQTTClient.publish('/messages/status', 'Traffic monitor started & connected!', 1)
     print('started!')
     getEnvironmentData()
 
