@@ -36,8 +36,6 @@ grovepi.pinMode(digitalPins.get('tempAndHumidity'), 'INPUT')
 grovepi.pinMode(digitalPins.get('water'), 'INPUT')
 grovepi.pinMode(digitalPins.get('motion'), 'INPUT')
 
-# isMotionActive = False
-
 def init():
     message = {
         'message': 'Traffic monitor started & connected!'
@@ -77,7 +75,8 @@ def getEnvironmentData():
         'airQuality': getAirQuality(),
         'temperature': temperature,
         'humidity': humidity,
-        'water': getWater()
+        'water': getWater(),
+        'timestamp': time.time()
     }
 
     for key, value in data.items():
