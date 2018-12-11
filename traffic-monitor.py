@@ -3,7 +3,8 @@
 import asyncio
 import grovepi
 import math
-import json 
+import json
+import time
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 
@@ -25,24 +26,41 @@ analogPins = {
 
 digitalPins = {
     'tempAndHumidity': 4,
-    'waterSensor': 2
+    'water': 2,
+    "motion": 4
 }
 
 grovepi.pinMode(analogPins.get('airQuality'), 'INPUT')
-grovepi.pinMode(digitalPins.get('waterSensor'), 'INPUT')
+grovepi.pinMode(digitalPins.get('water'), 'INPUT')
+grovepi.pinMode(digitalPins.get('motion'), 'INPUT')
 
 def init():
-    message = {
-        'message': 'Traffic monitor started & connected!'
-    }
+    # message = {
+    #     'message': 'Traffic monitor started & connected!'
+    # }
 
-    if myAWSIoTMQTTClient.publish('messages/status', json.dumps(message), 1):
-        print("published successfully")
-    else:
-        print("Couldn't publish message")
+    # if myAWSIoTMQTTClient.publish('messages/status', json.dumps(message), 1):
+    #     print("published successfully")
+    # else:
+    #     print("Couldn't publish message")
     
     print('started!')
-    getEnvironmentData()
+
+    runLoop()
+    # getEnvironmentData()
+
+def runLoop():
+    while True:
+        try:
+            if grovepi.digitalRead(digitalPins.get('motion')):
+                print('Motion detected')
+                getEnvironmentData()
+            else:
+                print('No motion detected')
+            
+            time.sleep(.2)
+        except IOError:
+            print('IO Error')
 
 def getEnvironmentData():
     temperature, humidity = getTemperatureAndHumidity()
@@ -86,7 +104,7 @@ def getTemperatureAndHumidity():
 
 def getWater():
     try: 
-        return grovepi.digitalRead(grovepi.digitalRead(digitalPins.get('waterSensor')))
+        return grovepi.digitalRead(digitalPins.get('water'))
     except IOError:
         print('IO Error')
         return None
