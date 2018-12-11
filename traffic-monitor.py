@@ -36,7 +36,7 @@ grovepi.pinMode(digitalPins.get('tempAndHumidity'), 'INPUT')
 grovepi.pinMode(digitalPins.get('water'), 'INPUT')
 grovepi.pinMode(digitalPins.get('motion'), 'INPUT')
 
-isMotionActive = False
+# isMotionActive = False
 
 def init():
     message = {
@@ -53,6 +53,8 @@ def init():
     runLoop()
 
 def runLoop():
+    isMotionActive = False
+    
     while True:
         try:
             if grovepi.digitalRead(digitalPins.get('motion')):
