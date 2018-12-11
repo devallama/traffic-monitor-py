@@ -35,14 +35,14 @@ grovepi.pinMode(digitalPins.get('water'), 'INPUT')
 grovepi.pinMode(digitalPins.get('motion'), 'INPUT')
 
 def init():
-    # message = {
-    #     'message': 'Traffic monitor started & connected!'
-    # }
+    message = {
+        'message': 'Traffic monitor started & connected!'
+    }
 
-    # if myAWSIoTMQTTClient.publish('messages/status', json.dumps(message), 1):
-    #     print("published successfully")
-    # else:
-    #     print("Couldn't publish message")
+    if myAWSIoTMQTTClient.publish('messages/status', json.dumps(message), 1):
+        print("published successfully")
+    else:
+        print("Couldn't publish message")
     
     print('started!')
 
@@ -58,7 +58,7 @@ def runLoop():
             else:
                 print('No motion detected')
             
-            time.sleep(.5)
+            time.sleep(1)
         except IOError:
             print('IO Error')
 
@@ -81,7 +81,11 @@ def getEnvironmentData():
 def sendDataOverMQTT(data):
     for key, value in data.items():
         print('key: ' + key + ' is value: ' + str(value))
-    print('send data here')
+    
+    if myAWSIoTMQTTClient.publish('traffic/create', json.dumps(data), 1):
+        print("Published successfully")
+    else:
+        print("Couldn't publish message")
 
 def getAirQuality():
     try:
