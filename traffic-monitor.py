@@ -58,7 +58,7 @@ def runLoop():
             else:
                 print('No motion detected')
             
-            time.sleep(.2)
+            time.sleep(.5)
         except IOError:
             print('IO Error')
 
