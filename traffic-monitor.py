@@ -36,7 +36,7 @@ def init():
         'message': 'Traffic monitor started & connected!'
     }
 
-    if myAWSIoTMQTTClient.publish('messages/status', json.loads(message), 1):
+    if myAWSIoTMQTTClient.publish('messages/status', json.dumps(message), 1):
         print("published successfully")
     else:
         print("Couldn't publish message")
